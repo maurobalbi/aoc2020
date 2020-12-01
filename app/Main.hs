@@ -32,10 +32,6 @@ solve (Aoc 1 1) = readFile  "./input/day1.txt"  >>= putStrLn . Day1.part1
 solve (Aoc 1 2) = readFile  "./input/day1.txt"  >>= putStrLn . Day1.part2
 solve _ = putStrLn "Please specify a correct day and part"
 
--- solutions:: Aoc -> IO String
--- solutions (Aoc 1 1) = 
---   solvePart1 
-
 main :: IO ()
 main = do
    aoc <- execParser opts
