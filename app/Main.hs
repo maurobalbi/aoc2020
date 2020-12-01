@@ -1,13 +1,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 
-import Day1 ( 
-  part1,
-  part2 )
+import Day1
+import qualified Day1 as Day1(part1, part2)
+import Day2
+import qualified Day2 as Day2(part1, part2)
 import Options.Applicative
 import Data.Semigroup ()
-import Control.Monad
-import Control.Exception
 
 data Aoc = Aoc
   { day      :: Int
@@ -28,10 +27,10 @@ sample = Aoc
          <> help "The part to execute"
          <> metavar "INT" )
 
-readInput :: Aoc -> IO String
-readInput (Aoc 1 1) = readFile "./input/day1.txt"
-readInput (Aoc 1 2) = readFile "./input/day1.txt"
-readInput _ = return ""
+solve :: Aoc -> IO ()
+solve (Aoc 1 1) = readFile  "./input/day1.txt"  >>= putStrLn . Day1.part1
+solve (Aoc 1 2) = readFile  "./input/day1.txt"  >>= putStrLn . Day1.part2
+solve _ = putStrLn "Please specify a correct day and part"
 
 -- solutions:: Aoc -> IO String
 -- solutions (Aoc 1 1) = 
@@ -39,9 +38,8 @@ readInput _ = return ""
 
 main :: IO ()
 main = do
-   command <- execParser opts
-   input <- readInput command
-   putStrLn $ part2 input
+   aoc <- execParser opts
+   solve aoc
     where
       opts = info (sample <**> helper)
         ( fullDesc
