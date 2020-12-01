@@ -1,8 +1,11 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 
-import Day1
+import Day1 ( part1 )
 import Options.Applicative
 import Data.Semigroup ()
+import Control.Monad
+import Control.Exception
 
 data Aoc = Aoc
   { day      :: Int
@@ -24,17 +27,19 @@ sample = Aoc
          <> metavar "INT" )
 
 readInput :: Aoc -> IO String
-readInput (Aoc 1 1) = readFile "./resources/day1/part1.txt"
-readInput (Aoc 1 2) = readFile "./resources/day1/part2.txt"
+readInput (Aoc 1 1) = readFile "./input/day1.txt"
+readInput (Aoc 1 2) = readFile "./input/day1.txt"
 readInput _ = return ""
 
-solutions :: Aoc -> IO String
+-- solutions:: Aoc -> IO String
+-- solutions (Aoc 1 1) = 
+--   solvePart1 
 
 main :: IO ()
 main = do
    command <- execParser opts
-   string <- readInput command
-   putStrLn string
+   input <- readInput command
+   putStrLn $ part1 input
     where
       opts = info (sample <**> helper)
         ( fullDesc
