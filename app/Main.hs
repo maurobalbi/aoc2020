@@ -1,7 +1,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module Main where
 
-import Day1 ( part1 )
+import Day1 ( 
+  part1,
+  part2 )
 import Options.Applicative
 import Data.Semigroup ()
 import Control.Monad
@@ -39,7 +41,7 @@ main :: IO ()
 main = do
    command <- execParser opts
    input <- readInput command
-   putStrLn $ part1 input
+   putStrLn $ part2 input
     where
       opts = info (sample <**> helper)
         ( fullDesc
