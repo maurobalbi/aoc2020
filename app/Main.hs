@@ -30,8 +30,8 @@ sample = Aoc
 solve :: Aoc -> IO ()
 solve (Aoc 1 1) = readFile  "./input/day1.txt"  >>= putStrLn . Day1.part1
 solve (Aoc 1 2) = readFile  "./input/day1.txt"  >>= putStrLn . Day1.part2
-solve (Aoc 2 1) = readFile  "./input/day1.txt"  >>= putStrLn . Day2.part1
-solve (Aoc 2 2) = readFile  "./input/day1.txt"  >>= putStrLn . Day2.part2
+solve (Aoc 2 1) = readFile  "./input/day2.txt"  >>= putStrLn . Day2.part1
+solve (Aoc 2 2) = readFile  "./input/day2.txt"  >>= putStrLn . Day2.part2
 solve _ = putStrLn "Please specify a correct day and part"
 
 main :: IO ()
