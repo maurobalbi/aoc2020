@@ -33,13 +33,16 @@ part1 input = output
             Left e -> show e
 
 solve1 :: [[Terrain]] -> String
-solve1 input = show . length . filter (== Tree) $ passTerrain input
+solve1 input = show . length $ findTrees 3 input
 
-passTerrain :: [[a]] -> [a]
-passTerrain = pass . map cycle
+findTrees :: Int -> [[Terrain]] -> [Terrain]
+findTrees slope input = filter (== Tree) $ passTerrain slope input
 
-pass:: [[a]] -> [a]
-pass input = foldr (\x y-> (head (drop (3 * length y) x)) : y ) [] $ reverse input
+passTerrain :: Int-> [[a]] -> [a]
+passTerrain slope = pass slope . (map cycle)
+
+pass:: Int -> [[a]] -> [a]
+pass slope input = foldr (\x y-> (head (drop (slope * length y) x)) : y ) [] $ reverse input
 
 nthTerrain :: Int -> [Terrain] -> Terrain
 nthTerrain n input = head . drop n $ cycle input
