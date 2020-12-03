@@ -1,7 +1,8 @@
 module Day2
     ( 
         part1,
-        part2
+        part2,
+        safeHead
     ) where
 
 import Control.Monad

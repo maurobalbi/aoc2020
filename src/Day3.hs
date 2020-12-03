@@ -4,24 +4,52 @@ module Day3
         part2
     ) where
 
+import Day2(safeHead)
 import Control.Monad
+import Data.Char
+import Data.List
+import Text.Parsec
+import Text.Parsec.String
 
+data Terrain = Tree | Snow deriving ( Show, Eq)
 
-parseInput :: String -> [Integer]
-parseInput = map read . lines
+parseInput :: String -> Either ParseError [[Terrain]]
+parseInput = parse parseAll ""
+
+parseAll :: Parser [[Terrain]]
+parseAll = manyTill parseLine eof
+
+parseLine :: Parser [Terrain]
+parseLine = manyTill parseTerrain $ eof <|> void newline
+
+parseTerrain :: Parser Terrain
+parseTerrain = char '#' *> pure Tree <|> char '.' *> pure Snow
 
 part1 ::  String -> String
-part1 input = show $ head $ solve1 (parseInput input) 2020
+part1 input = output
+    where 
+        output = case parseInput input of
+            Right r -> solve1 r
+            Left e -> show e
 
-solve1 :: (Eq b, Num b) => [b] -> b -> [b]
-solve1 i test = 
-  do x <- i
-     y <- i
-     guard ((x + y) == test)
-     pure (x * y)
+solve1 :: [[Terrain]] -> String
+solve1 input = show . length . filter (== Tree) $ passTerrain input
+
+passTerrain :: [[a]] -> [a]
+passTerrain = pass . map cycle
+
+pass:: [[a]] -> [a]
+pass input = foldr (\x y-> (head (drop (3 * length y) x)) : y ) [] $ reverse input
+
+nthTerrain :: Int -> [Terrain] -> Terrain
+nthTerrain n input = head . drop n $ cycle input
 
 part2 ::  String -> String
-part2 input = show $ head $ solve2 (parseInput input) 2020
+part2 input = output
+    where 
+        output = case parseInput input of
+            Right r -> solve1 r
+            Left e -> show e
 
 solve2 :: (Eq b, Num b) => [b] -> b -> [b]
 solve2 i test = 
