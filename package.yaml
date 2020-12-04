@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - optparse-applicative
 - parsec
+- string-qq
 library:
   source-dirs: src
 
