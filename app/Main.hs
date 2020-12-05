@@ -7,6 +7,9 @@ import Day2
 import qualified Day2 as Day2(part1, part2)
 import Day3
 import qualified Day3 as Day3(part1, part2)
+
+import Day4
+import qualified Day4 as Day4(part1, part2)
 import Options.Applicative
 import Data.Semigroup ()
 
@@ -36,6 +39,8 @@ solve (Aoc 2 1) = readFile  "./input/day2.txt"  >>= putStrLn . Day2.part1
 solve (Aoc 2 2) = readFile  "./input/day2.txt"  >>= putStrLn . Day2.part2
 solve (Aoc 3 1) = readFile  "./input/day3.txt"  >>= putStrLn . Day3.part1
 solve (Aoc 3 2) = readFile  "./input/day3.txt"  >>= putStrLn . Day3.part2
+solve (Aoc 4 1) = readFile  "./input/day4.txt"  >>= putStrLn . Day4.part1
+solve (Aoc 4 2) = readFile  "./input/day4.txt"  >>= putStrLn . Day4.part2
 solve _ = putStrLn "Please specify a correct day and part"
 
 main :: IO ()

@@ -24,6 +24,7 @@ dependencies:
 - optparse-applicative
 - parsec
 - string-qq
+- split
 library:
   source-dirs: src
 

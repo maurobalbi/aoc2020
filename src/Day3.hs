@@ -63,6 +63,7 @@ slopeFunctions = map treeCount slopes
     where
         treeCount = \x -> length . findTrees x
 
+solve2 :: [[Terrain]] -> String
 solve2 input = show . product $ slopeFunctions <*> pure input
 
 part2 ::  String -> String
