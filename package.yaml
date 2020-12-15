@@ -25,6 +25,7 @@ dependencies:
 - parsec
 - string-qq
 - split
+- containers
 library:
   source-dirs: src
 

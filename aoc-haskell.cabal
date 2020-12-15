@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 24fdcb51e043bbc1ba0062e15a22187844b11c598bb5575aa97c33262177de49
+-- hash: 7f1d222f08dc01e0965557a227f55afd74ffbc5d153bf099aaaa61ae07ebc9db
 
 name:           aoc-haskell
 version:        0.1.0.0
@@ -38,6 +38,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , containers
     , optparse-applicative
     , parsec
     , split
@@ -54,6 +55,7 @@ executable aoc-haskell-exe
   build-depends:
       aoc-haskell
     , base >=4.7 && <5
+    , containers
     , optparse-applicative
     , parsec
     , split
@@ -71,6 +73,7 @@ test-suite aoc-haskell-test
   build-depends:
       aoc-haskell
     , base >=4.7 && <5
+    , containers
     , optparse-applicative
     , parsec
     , split

@@ -1,86 +1,57 @@
+{-# LANGUAGE LambdaCase #-}
 module Day5
     ( 
         part1,
-        part2,
-        safeHead
+        part2
     ) where
 
 import Control.Monad
-import Data.Char
+
 import Data.List
+import Data.Set hiding (take, drop, foldl, map, (\\))
 import Text.Parsec
 import Text.Parsec.String
 
-data Input = Input {
-    min:: Int,
-    max:: Int,
-    test:: Char,
-    term:: String
-} deriving (Show)
+parseInput :: String -> Either ParseError [String]
+parseInput = Right . lines
 
-parseInput :: String -> Either ParseError [Input]
-parseInput = parse parseFile "" 
+firstHalve :: [a] -> [a]
+firstHalve list = take half list 
+    where half = length list `div` 2
 
-parseFile :: Parser [Input]
-parseFile = manyTill parseToInput eof
+secondHalve :: [a] -> [a]
+secondHalve list = drop half list 
+    where half = length list `div` 2
 
-parseToInput:: Parser Input
-parseToInput = do 
-    min <- parseInt
-    char '-'
-    max <- parseInt
-    many1 space
-    test <- anyChar
-    char ':'
-    many1 space
-    term <- manyTill anyChar (eof <|> void newline)
-    pure (Input min max test term)
+calculateId :: ([Integer], [Integer]) -> Integer
+calculateId = (\(row, column) -> head row * 8 + head column)
 
-parseInt :: Parser Int
-parseInt = read <$> many digit
+findSeat =  foldl takeHalf ([0..127], [0..7])
+     where takeHalf y x = case x of
+            'F' -> (firstHalve $ fst y, snd y)
+            'B' -> (secondHalve $ fst y, snd y)
+            'R' -> (fst y, secondHalve $ snd y)
+            'L' -> (fst y, firstHalve $ snd y)
+            _ -> ([],[])
 
-isValid1 :: Input -> Bool
-isValid1 (Input min max test term) = 
-    occurence >= min && occurence <= max
-        where 
-            occurence = letterFrequency test term
-
-letterFrequency:: Char -> String -> Int
-letterFrequency c s = snd . letterPair . safeHead . filter (\x -> fst x == c) $ frequency s
-    where 
-        letterPair (Just a)= a
-        letterPair Nothing = (c, 0)
-
-safeHead:: [a] -> Maybe a
-safeHead [] = Nothing
-safeHead (x : _) = Just x
-
-frequency:: (Eq a, Ord a) => [a] -> [(a, Int)]
-frequency =  map (\x -> (head x, length x)) . group . sort
+solve1 :: String -> Int
+solve1 = (\(row, column) -> head row * 8 + head column) . findSeat
 
 part1 ::  String -> String
 part1 input = output
     where 
         output = case parseInput input of
-            Right r -> show . length . filter (True ==) . map isValid1 $ r
+            Right r -> show . maximum . map solve1 $ r
             Left e -> show e
 
-xor :: Bool -> Bool -> Bool
-xor True False = True
-xor False True = True
-xor _ _ = False
 
-isValid2 :: Input -> Bool
-isValid2 (Input min max test term) = isElementAtIndex (min - 1) test term `xor` isElementAtIndex (max - 1) test term
-
-isElementAtIndex :: Int -> Char -> String -> Bool 
-isElementAtIndex i c s = case safeHead . take 1 . drop i $ s of
-    Just char -> char == c
-    Nothing -> False
+solve2 :: [String] -> [Int]
+solve2 input = [(head list)..(last list)] \\ list
+    where list = sort . map solve1 $ input
 
 part2 ::  String -> String
 part2 input = output
     where 
         output = case parseInput input of
-            Right r ->  show . length . filter (True ==) . map isValid2 $ r
+            Right r ->  show . solve2 $ r
             Left e -> show e
